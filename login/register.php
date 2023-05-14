@@ -25,8 +25,9 @@ require_once('../config.php');
                     <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
                         <div class="card-body p-4 p-md-5">
                             <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Registration Form</h3>
-                            <?php if (isset($_GET['err_message'])) {
-                                echo "<h6 class='bs-danger'>" . $_GET['err_message'] . "</h6>";
+                            <?php if (isset($_COOKIE['err_message'])) {
+                                echo "<h6 class=" . $_COOKIE['message_class'] . ">" . htmlspecialchars($_COOKIE['err_message']) . "</h6>";
+                                setcookie('err_message', '', time() - 3600, '/');
                             } ?>
                             <form method="POST" action="actions.php">
 
@@ -56,7 +57,7 @@ require_once('../config.php');
                                     <div class="col-12 mb-4">
 
                                         <div class="form-outline">
-                                            <input type="text" id="employee_id" name="employee_id" class="form-control form-control-lg" value="<?php if (isset($_POST['employee_id'])) echo $_POST['employee_id']; ?>" required />
+                                            <input type="number" id="employee_id" name="employee_id" class="form-control form-control-lg" value="<?php if (isset($_POST['employee_id'])) echo $_POST['employee_id']; ?>" required />
                                             <label class="form-label" for="employee_id">Employeed ID</label>
                                         </div>
 
@@ -98,7 +99,7 @@ require_once('../config.php');
                                     <div class="col-md-6 mb-4 pb-2">
 
                                         <div class="form-outline">
-                                            <input type="tel" id="phonenumber" name="phonenumber" class="form-control form-control-lg" value="<?php if (isset($_POST['phonenumber'])) echo $_POST['phonenumber']; ?>" required />
+                                            <input type="tel" id="phonenumber" name="phonenumber" placeholder="63-912-345-6789" pattern="[6]{1}[3]{1}[0-9]{10}" class=" form-control form-control-lg" value="<?php if (isset($_POST['phonenumber'])) echo $_POST['phonenumber']; ?>" required />
                                             <label class="form-label" for="phonenumber">Phone Number</label>
                                         </div>
 

@@ -19,21 +19,22 @@
                     <img src="../uploads/bg_img.JPG" class="img-fluid" alt="Sample image">
                 </div>
                 <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-
-                    <?php if (isset($_GET['message'])) {
-                        echo "<h6 class='text-success'>" . $_GET['message'] . "</h6>";
+                    <h2><a href="../index.php" class="text-success text-decoration-none">Cavite State University</a></h2>
+                    <?php if (isset($_COOKIE['message'])) {
+                        echo "<h6 class=" . $_COOKIE['message_class'] . ">" . htmlspecialchars($_COOKIE['message']) . "</h6>";
+                        setcookie('message', '', time() - 3600, '/');
                     } ?>
                     <form method="POST" action="actions.php">
 
                         <!-- Email input -->
                         <div class="form-outline mb-4">
-                            <input type="email" id="email" class="form-control form-control-lg" placeholder="Enter a valid email address" />
+                            <input type="email" id="email" name="email" class="form-control form-control-lg" placeholder="Enter a valid email address" />
                             <label class="form-label" for="email">Email address</label>
                         </div>
 
                         <!-- Password input -->
                         <div class="form-outline mb-3">
-                            <input type="password" id="password" class="form-control form-control-lg" placeholder="Enter password" />
+                            <input type="password" id="password" name="password" class="form-control form-control-lg" placeholder="Enter password" />
                             <label class="form-label" for="password">Password</label>
                         </div>
 
