@@ -45,6 +45,11 @@ $branch_latest_qry = mysqli_query($conn, $branch_latest_stmt);
 $branch_latest_res = mysqli_fetch_assoc($branch_latest_qry);
 $branch_latest_date = strtotime($branch_latest_res['updated_at']);
 
+$record_latest_stmt = "SELECT * FROM records ORDER BY updated_at DESC LIMIT 1";
+$record_latest_qry = mysqli_query($conn, $record_latest_stmt);
+$record_latest_res = mysqli_fetch_assoc($record_latest_qry);
+$record_latest_date = strtotime($record_latest_res['updated_at']);
+
 ?>
 
 <!DOCTYPE html>
@@ -89,9 +94,9 @@ $branch_latest_date = strtotime($branch_latest_res['updated_at']);
             <!-- End Div Starter -->
 
             <!-- Main Dashboard -->
-            <div class="container py-5 h-100">
-                <div class="row justify-content-center align-items-center h-100">
-                    <div class="col-12 col-md-4">
+            <div class="container py-4 h-100">
+                <div class="row justify-content-center align-items-center">
+                    <div class="col-12 col-md-4 py-2">
                         <div class="card ">
                             <div class="card-header bg-custom-lightorange text-white">
                                 Featured
@@ -109,7 +114,7 @@ $branch_latest_date = strtotime($branch_latest_res['updated_at']);
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 col-md-4">
+                    <div class="col-12 col-md-4 py-2">
                         <div class="card ">
                             <div class="card-header bg-custom-lightorange text-white">
                                 Featured
@@ -126,7 +131,7 @@ $branch_latest_date = strtotime($branch_latest_res['updated_at']);
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 col-md-4">
+                    <div class="col-12 col-md-4 py-2">
                         <div class="card ">
                             <div class="card-header bg-custom-lightorange text-white">
                                 Featured
@@ -145,19 +150,33 @@ $branch_latest_date = strtotime($branch_latest_res['updated_at']);
                     </div>
                 </div>
 
+                <div class="row justify-content-center py-3">
+                    <div class="col-12 col-md-8">
+                        <div class="card ">
+                            <div class="card-header bg-custom-darkgreen text-white">
+                                Reports
+                            </div>
+                            <div class="card-body">
+                                <canvas id="myChart"></canvas> <!-- Canvas element for the chart -->
+                            </div>
+                            <div class="card-footer text-light bg-custom-darkgreen">
+                                Last update: <?= date('F j, Y (D)', $record_latest_date); ?>
 
-                <div class="row justify-content-center align-items-center h-50">
-                    <canvas id="myChart" width="200" height="200"></canvas> <!-- Canvas element for the chart -->
-                </div>
-                <!-- End Main Dashboard -->
+                            </div>
+                        </div>
+                    </div>
 
-            </div>
+
+                    <div class="col-12 col-md-4">
+                        </ </div>
+                        <!-- End Main Dashboard -->
+                    </div>
     </main>
     <!-- End Main Slot -->
 
     <?php
     // Query to retrieve data
-    $sql = "SELECT year, total_graduates, total_percentage FROM records";
+    $sql = "SELECT rec.*, br.branch_name FROM records AS rec INNER JOIN branches AS br ON rec.branch_id = br.id";
 
     // Execute the query
     $result = $conn->query($sql);
@@ -180,11 +199,12 @@ $branch_latest_date = strtotime($branch_latest_res['updated_at']);
         var data = <?php echo json_encode($data); ?>;
 
         // Extract the year, total_graduates, and total_percentage values from the data
-        var years = [];
+        var branch_years = [];
         var graduates = [];
         var percentages = [];
+
         data.forEach(function(item) {
-            years.push(item.year);
+            branch_years.push(item.branch_name + ': ' + item.year);
             graduates.push(item.total_graduates);
             percentages.push(item.total_percentage);
         });
@@ -194,7 +214,7 @@ $branch_latest_date = strtotime($branch_latest_res['updated_at']);
         var chart = new Chart(ctx, {
             type: 'bar', // Choose the chart type (e.g., bar, line, pie)
             data: {
-                labels: years, // Set the labels (x-axis values)
+                labels: branch_years, // Set the labels (x-axis values)
                 datasets: [{
                         label: 'Total Graduates', // Set the dataset label
                         data: graduates, // Set the dataset values

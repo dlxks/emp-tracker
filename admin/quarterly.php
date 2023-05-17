@@ -88,78 +88,87 @@ $record_id = $_GET['record_id'];
             <!-- Table -->
             <div class="main-table">
                 <div class="table-wrap shadow mx-2 my-4 p-4 rounded-2" role="region" aria-labelledby="Cap1" tabindex="0">
-                    <!-- Table Controls -->
                     <div class="row">
-                        <!-- Back to Records -->
-                        <div class="col-sm sm:d-flex sm:justify-content-end">
-                            <div class="d-inline-block">
-                                <a href="records.php" class="btn btn-danger"><i class="fa-solid fa-chevron-left"></i> Return to Records</a>
-                            </div>
+                        <!-- Chart -->
+                        <div class="col-md-4 py-2">
+                            <canvas id="quarterlyChart"></canvas> <!-- Canvas element for the chart -->
                         </div>
-                        <!-- End Back to Records -->
+                        <!-- End Chart -->
 
-                        <!-- Button -->
-                        <div class="col-sm d-flex justify-content-end">
-                            <div class="d-inline-block">
-                                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addQuarter<?= $record_id; ?>"><i class="fa fa-circle-plus"></i> Add Record</button>
-                                <?php include('modals/quarterly_modal.php'); ?>
-                            </div>
-                        </div>
-                        <!-- End Button -->
+                        <div class="col-md-8">
+                            <!-- Table Controls -->
+                            <div class="row">
+                                <!-- Back to Records -->
+                                <div class="col-sm sm:d-flex sm:justify-content-end">
+                                    <div class="d-inline-block">
+                                        <a href="records.php" class="btn btn-danger"><i class="fa-solid fa-chevron-left"></i> Return to Records</a>
+                                    </div>
+                                </div>
+                                <!-- End Back to Records -->
 
-                    </div>
-                    <!-- End Table Controls -->
-
-                    <!-- Modal Container -->
-                    <div class="modal-container"></div>
-                    <!-- End Modal Container -->
-
-                    <table id="data_table" class="table table-striped table-hover">
-                        <thead>
-                            <tr>
-                                <th>Quarter</th>
-                                <th>Employed</th>
-                                <th>Percentage</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody id="show_quarter">
-                            <?php
-
-                            // Write a MySQL query to retrieve the records for the current page
-                            $sql = "SELECT * FROM quarterlies WHERE record_id = '$record_id' ORDER BY quarter ASC";
-                            $result = mysqli_query($conn, $sql) or die(mysqli_error($conn));
-
-                            if ($count = mysqli_num_rows($result) == 0) {
-                            ?>
-                                <tr>
-                                    <td colspan="4" class="text-center">
-                                        <span class="fw-bold text-danger">No Records</span>
-                                    </td>
-                                </tr>
-                                <?php
-                            } else {
-
-                                // Display the records 
-                                while ($row = mysqli_fetch_assoc($result)) {
-                                    // display table row
-                                    $id = $row['id'];
-                                ?>
-                                    <tr>
-                                        <td><?= $row['quarter']; ?></td>
-                                        <td><?= $row['employed']; ?></td>
-                                        <td><?= $row['percentage']; ?></td>
-                                        <td>
-                                            <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#removeQuarter<?= $id; ?>"><i class="fa fa-trash"></i> Remove</button>
-                                        </td>
+                                <!-- Button -->
+                                <div class="col-sm d-flex justify-content-end">
+                                    <div class="d-inline-block">
+                                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addQuarter<?= $record_id; ?>"><i class="fa fa-circle-plus"></i> Add Record</button>
                                         <?php include('modals/quarterly_modal.php'); ?>
+                                    </div>
+                                </div>
+                                <!-- End Button -->
+
+                            </div>
+                            <!-- End Table Controls -->
+
+                            <!-- Modal Container -->
+                            <div class="modal-container"></div>
+                            <!-- End Modal Container -->
+                            <table id="data_table" class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Quarter</th>
+                                        <th>Employed</th>
+                                        <th>Percentage</th>
+                                        <th>Action</th>
                                     </tr>
-                            <?php
-                                }
-                            }
-                            ?>
-                        </tbody>
-                    </table>
+                                </thead>
+                                <tbody id="show_quarter">
+                                    <?php
+
+                                    // Write a MySQL query to retrieve the records for the current page
+                                    $sql = "SELECT * FROM quarterlies WHERE record_id = '$record_id' ORDER BY quarter ASC";
+                                    $result = mysqli_query($conn, $sql) or die(mysqli_error($conn));
+
+                                    if ($count = mysqli_num_rows($result) == 0) {
+                                    ?>
+                                        <tr>
+                                            <td colspan="4" class="text-center">
+                                                <span class="fw-bold text-danger">No Records</span>
+                                            </td>
+                                        </tr>
+                                        <?php
+                                    } else {
+
+                                        // Display the records 
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            // display table row
+                                            $id = $row['id'];
+                                        ?>
+                                            <tr>
+                                                <td><?= $row['quarter']; ?></td>
+                                                <td><?= $row['employed']; ?></td>
+                                                <td><?= $row['percentage']; ?></td>
+                                                <td>
+                                                    <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#removeQuarter<?= $id; ?>"><i class="fa fa-trash"></i> Remove</button>
+                                                </td>
+                                                <?php include('modals/quarterly_modal.php'); ?>
+                                            </tr>
+                                    <?php
+                                        }
+                                    }
+                                    ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
 
                 </div>
             </div>
@@ -169,8 +178,81 @@ $record_id = $_GET['record_id'];
     </main>
     <!-- End Main Slot -->
 
+    <?php
+    // Query to retrieve data
+    $sql = "SELECT * FROM quarterlies ORDER BY quarter ASC";
+
+    // Execute the query
+    $result = $conn->query($sql);
+
+    // Array to store the data
+    $data = array();
+
+    // Loop through the result and add data to the array
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $data[] = $row;
+        }
+    }
+    ?>
+
     <!-- JS Include -->
     <?php include('include/footer.php'); ?>
+
+    <script>
+        // Retrieve the PHP data and convert it to a JavaScript array
+        var data = <?php echo json_encode($data); ?>;
+
+        // Extract the year, total_graduates, and total_percentage values from the data
+        var quarters = [];
+        var graduates = [];
+        var percentages = [];
+        var colors = [];
+
+        data.forEach(function(item) {
+            colors.push(getRandomColor());
+            quarters.push(item.quarter);
+            graduates.push(item.employed);
+            percentages.push(item.percentage);
+        });
+
+        // Create the chart using Chart.js
+        var ctx = document.getElementById('quarterlyChart').getContext('2d');
+        var chart = new Chart(ctx, {
+            type: 'doughnut', // Choose the chart type (e.g., bar, line, pie)
+            data: {
+                labels: quarters, // Set the labels (x-axis values)
+                datasets: [{
+                        label: 'Total Graduates', // Set the dataset label
+                        data: graduates, // Set the dataset values
+                        backgroundColor: colors, // Set the color
+                        borderColor: colors,
+                        borderWidth: 1 // Set the border width
+                    },
+                    {
+                        label: 'Total Percentage', // Set the dataset label
+                        data: percentages, // Set the dataset values
+                        backgroundColor: colors, // Set the color
+                        borderColor: colors,
+                        borderWidth: 1 // Set the border width
+                    }
+                ]
+            },
+            options: {
+                scales: {}
+            }
+        });
+
+        // Generate random color
+        function getRandomColor() {
+            var letters = '0123456789ABCDEF';
+            var color = '#';
+            for (var i = 0; i < 8; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+    </script>
 
     <!-- Live Search -->
     <script>
