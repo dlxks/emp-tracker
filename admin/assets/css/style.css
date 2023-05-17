@@ -50,7 +50,7 @@ h6 {
 }
 
 .text-custom-lightorange {
-  color: #ff9400;
+  color: #e9941c;
 }
 
 .text-custom-lighterorange {
@@ -66,7 +66,7 @@ h6 {
 }
 
 .bg-custom-darkgreen {
-  background-color: #1b651b;
+  background-color: #1c771c;
 }
 
 .bg-custom-darkergreen {
@@ -74,11 +74,145 @@ h6 {
 }
 
 .bg-custom-lightorange {
-  background-color: #ff9400;
+  background-color: #e9941c;
 }
 
 .bg-custom-lighterorange {
   background-color: #feb04d;
+}
+
+/* CUSTOM BUTTONS */
+
+.custom-btn {
+  display: inline-block;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #212529;
+  text-align: center;
+  text-decoration: none;
+  vertical-align: middle;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  background-color: transparent;
+  border: 1px solid transparent;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  border-radius: 0.25rem;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  .custom-btn {
+    transition: none;
+  }
+}
+.custom-btn-lg,
+.btn-group-lg > .btn {
+  padding: 0.5rem 1rem;
+  font-size: 1.25rem;
+  border-radius: 0.3rem;
+}
+.custom-btn-sm,
+.custom-btn-group-sm > .btn {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+  border-radius: 0.2rem;
+}
+.custom-btn:hover {
+  color: #212529;
+}
+.custom-btn-check:focus + .custom-btn,
+.btn:focus {
+  outline: 0;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+.custom-btn:disabled,
+.custom-btn.disabled,
+fieldset:disabled .custom-btn {
+  pointer-events: none;
+  opacity: 0.65;
+}
+
+.custom-btn-darkgreen {
+  color: #fff;
+  background-color: #1b651b;
+  border-color: #1b651b;
+}
+.custom-btn-darkgreen:hover {
+  color: #fff;
+  background-color: #165216;
+  border-color: #165216;
+}
+.custom-btn-check:focus + .custom-btn-darkgreen,
+.custom-btn-darkgreen:focus {
+  color: #fff;
+  background-color: #375a37;
+  border-color: #165216;
+  box-shadow: 0 0 0 0.25rem rgba(30, 129, 43, 0.5);
+}
+.custom-btn-check:checked + .custom-btn-darkgreen,
+.custom-btn-check:active + .custom-btn-darkgreen,
+.custom-btn-darkgreen:active,
+.custom-btn-darkgreen.active,
+.show > .custom-btn-darkgreen.dropdown-toggle {
+  color: #fff;
+  background-color: #165216;
+  border-color: #2e472e;
+}
+.custom-btn-check:checked + .custom-btn-darkgreen:focus,
+.custom-btn-check:active + .custom-btn-darkgreen:focus,
+.custom-btn-darkgreen:active:focus,
+.custom-btn-darkgreen.active:focus,
+.show > .custom-btn-darkgreen.dropdown-toggle:focus {
+  box-shadow: 0 0 0 0.25rem rgba(30, 129, 43, 0.5);
+}
+.custom-btn-darkgreen:disabled,
+.custom-btn-darkgreen.disabled {
+  color: #fff;
+  background-color: #1b651b;
+  border-color: #1b651b;
+}
+
+.custom-btn-lightorange {
+  color: #fff;
+  background-color: #e6972a;
+  border-color: #e6972a;
+}
+.custom-btn-lightorange:hover {
+  color: #fff;
+  background-color: #db8000;
+  border-color: #db8000;
+}
+.custom-btn-check:focus + .custom-btn-lightorange,
+.custom-btn-lightorange:focus {
+  color: #fff;
+  background-color: #c77502;
+  border-color: #db8000;
+  box-shadow: 0 0 0 0.25rem rgba(163, 120, 0, 0.5);
+}
+.custom-btn-check:checked + .custom-btn-lightorange,
+.custom-btn-check:active + .custom-btn-lightorange,
+.custom-btn-lightorange:active,
+.custom-btn-lightorange.active,
+.show > .custom-btn-lightorange.dropdown-toggle {
+  color: #fff;
+  background-color: #db8000;
+  border-color: #2e472e;
+}
+.custom-btn-check:checked + .custom-btn-lightorange:focus,
+.custom-btn-check:active + .custom-btn-lightorange:focus,
+.custom-btn-lightorange:active:focus,
+.custom-btn-lightorange.active:focus,
+.show > .custom-btn-lightorange.dropdown-toggle:focus {
+  box-shadow: 0 0 0 0.25rem rgba(163, 120, 0, 0.5);
+}
+.custom-btn-lightorange:disabled,
+.custom-btn-lightorange.disabled {
+  color: #fff;
+  background-color: #e6972a;
+  border-color: #e6972a;
 }
 
 /*--------------------------------------------------------------
@@ -592,12 +726,9 @@ div {
     display: inline;
     font-weight: bold;
   }
-  .main-table table td:nth-of-type(3) {
-    text-align: left;
-  }
-  .main-table table td:nth-of-type(4) {
+  .main-table table td:last-of-type {
     text-align: right;
-  } 
+  }
 }
 
 /* Pagination for Table */

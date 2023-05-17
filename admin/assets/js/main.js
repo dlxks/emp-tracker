@@ -45,7 +45,6 @@
     }
   });
 
-  
   /**
    * Live timer/clock
    */

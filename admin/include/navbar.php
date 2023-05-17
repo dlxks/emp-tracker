@@ -2,7 +2,7 @@
 <header id="header" class="header fixed-top d-flex align-items-center">
 
     <div class="d-flex align-items-center justify-content-between">
-        <a href="dashboard.php" class="logo d-flex align-items-center text-decoration-none">
+        <a href="index.php" class="logo d-flex align-items-center text-decoration-none">
             <img src="../uploads/cvsu_logo.png" alt="">
             <span class="logo-text">Cavite State University</span>
         </a>
@@ -33,7 +33,7 @@
                     </li>
 
                     <li>
-                        <a class="dropdown-item d-flex align-items-center" href="#">
+                        <a class="dropdown-item d-flex align-items-center" href="profile.php">
                             <i class="fa fa-user"></i>
                             <span>Profile Settings</span>
                         </a>
@@ -44,9 +44,20 @@
                     </li>
 
                     <li>
-                        <a class="dropdown-item d-flex align-items-center" href="#">
+                        <a class="dropdown-item d-flex align-items-center" href="administrators.php">
                             <i class="fa fa-users"></i>
                             <span>User Management</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+
+                    <li>
+                        <a class="dropdown-item d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#exportData">
+                            <i class="fa fa-download"></i>
+                            <span>Export to CSV</span>
                         </a>
                     </li>
 

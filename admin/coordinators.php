@@ -1,5 +1,5 @@
 <?php
-require_once('../config.php');
+include('../config.php');
 
 // Check session
 require_once('include/session_check.php');
@@ -18,7 +18,7 @@ $row = mysqli_fetch_assoc($stmt);
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Branches</title>
+    <title>Coordinators</title>
 
     <!-- CSS Include -->
     <?php include('include/header.php'); ?>
@@ -36,7 +36,7 @@ $row = mysqli_fetch_assoc($stmt);
         <div class="contrainer">
             <!-- Page Header -->
             <div class="page-header px-5 py-2 text-custom-darkgreen">
-                <h3 class="fw-bolder">Branches</h3>
+                <h3 class="fw-bolder">Coordinators</h3>
             </div>
             <!-- End Page Header -->
 
@@ -106,11 +106,11 @@ $row = mysqli_fetch_assoc($stmt);
                         <!-- Search -->
                         <div class="col-sm d-flex justify-content-end">
                             <div class="d-inline-block">
-                                <input type="text" id="branch_search" name="branch_search" placeholder="Search here" class="form-control" />
+                                <input type="text" id="coordinator_search" name="coordinator_search" placeholder="Search here" class="form-control" />
                             </div>
                             <div class="d-inline-block">
-                                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addBranch"><span class="fa fa-circle-plus"></span> Add</button>
-
+                                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addAdmin"><span class="fa fa-circle-plus"></span> Add</button>
+                                <?php include('modals/admin_modal.php'); ?>
                             </div>
                         </div>
                         <!-- Button -->
@@ -125,17 +125,26 @@ $row = mysqli_fetch_assoc($stmt);
                     <table id="data_table" class="table table-striped table-hover">
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Branch/College</th>
-                                <th>Description</th>
+                                <th>Branch</th>
+                                <th>Employee ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
-                        <tbody id="show_branches">
+                        <tbody id="show_users">
                             <?php
 
                             // Write a MySQL query to retrieve the records for the current page
-                            $sql = "SELECT * FROM branches LIMIT $starting_record, $per_page";
+                            $sql = "SELECT us.*, br.id as branch_id, br.branch_name
+                            FROM users as us 
+                            INNER JOIN branches as br 
+                            ON us.branch_id = br.id 
+                            HAVING us.role = 'coordinator' 
+                            ORDER BY employee_id ASC
+                            LIMIT $starting_record, $per_page";
+
                             $result = mysqli_query($conn, $sql) or die(mysqli_error($conn));
 
                             if ($count = mysqli_num_rows($result) == 0) {
@@ -147,21 +156,22 @@ $row = mysqli_fetch_assoc($stmt);
                                 </tr>
                                 <?php
                             } else {
-
                                 // Display the records 
                                 while ($row = mysqli_fetch_assoc($result)) {
                                     // display table row
                                     $id = $row['id'];
                                 ?>
                                     <tr>
-                                        <td><?= $row['id']; ?></td>
-                                        <td class="fw-bold"><?= $row['branch_name']; ?></td>
-                                        <td><?= $row['branch_desc']; ?></td>
+                                        <td><?= $row['branch_name']; ?></td>
+                                        <td><?= $row['employee_id']; ?></td>
+                                        <td><?= $row['first_name'] . " " . $row['last_name']; ?></td>
+                                        <td><?= $row['email']; ?></td>
+                                        <td><?= $row['status']; ?></td>
                                         <td>
-                                            <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#editBranch<?= $id; ?>"><span class="fa fa-pen-to-square"></span> Edit</button>
-                                            <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#removeBranch<?= $id; ?>"><span class="fa fa-trash"></span> Remove</button>
-
-                                        </td><?php include('modals/branch_modal.php'); ?>
+                                            <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#editAdmin<?= $id; ?>"><span class="fa fa-pen-to-square"></span> View</button>
+                                            <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteAdmin<?= $id; ?>"><span class="fa fa-trash"></span> Remove</button>
+                                        </td>
+                                        <?php include('modals/admin_modal.php'); ?>
                                     </tr>
                             <?php
                                 }
@@ -174,7 +184,7 @@ $row = mysqli_fetch_assoc($stmt);
                     <ul class="pagination justify-content-end ">
                         <?php
                         // Get the total number of records
-                        $sql = "SELECT COUNT(*) AS total_records FROM branches";
+                        $sql = "SELECT COUNT(*) AS total_records FROM users WHERE role = 'admin'";
                         $result = mysqli_query($conn, $sql);
                         $row = mysqli_fetch_assoc($result);
                         $total_records = $row['total_records'];
@@ -217,16 +227,16 @@ $row = mysqli_fetch_assoc($stmt);
         $(document).ready(function() {
 
             // Searching
-            $('#branch_search').on("keyup", function() {
-                var branch_search = $(this).val();
+            $('#coordinator_search').on("keyup", function() {
+                var coordinator_search = $(this).val();
                 $.ajax({
                     method: 'POST',
-                    url: 'fetch/branches.php',
+                    url: 'fetch/coordinator_users.php',
                     data: {
-                        branch_search: branch_search
+                        coordinator_search: coordinator_search
                     },
                     success: function(response) {
-                        $("#show_branches").html(response);
+                        $("#show_users").html(response);
                     }
                 });
             });
@@ -240,15 +250,49 @@ $row = mysqli_fetch_assoc($stmt);
                 window.location.search = urlParams.toString();
             });
 
-            // Add branch modal open
-            $('.modal-container').load('modals/branch_modal.php', function() {
-                $('#addBranch').modal({
-                    show: true
+            // disable submit button until all required fields are filled
+            $('#addForm input[type="submit"]').prop("disabled", true);
+            $("#addForm input[required]").keyup(function() {
+                var empty = false;
+                $("form input[required]").each(function() {
+                    if ($(this).val() == "") {
+                        empty = true;
+                    }
                 });
+                if (empty) {
+                    $('#addForm input[type="submit"]').prop("disabled", true);
+                } else {
+                    $('#addForm input[type="submit"]').prop("disabled", false);
+                }
             });
 
+            // assign automatic password
+            $("#employee_id, #lastname").on("input", function() {
+                var value1 = $('#employee_id').val();
+                var value2 = $('#lastname').val();
+                $('#password').val(value1 + value2);
+                $('#confirm_password').val(value1 + value2);
+                $('#add_message').html('Password is automatically generated. The password is Employee ID + Last Name').css('color', 'green');
+            });
         });
 
+        // disable submit button until all required fields are filled
+        $('#addForm input[type="submit"]').prop("disabled", true);
+        $("#addForm input[required]").keyup(function() {
+            var empty = false;
+            $("form input[required]").each(function() {
+                if ($(this).val() == "") {
+                    empty = true;
+                }
+            });
+            if (empty) {
+                $('#addForm input[type="submit"]').prop("disabled", true);
+            } else {
+                $('#addForm input[type="submit"]').prop("disabled", false);
+            }
+        });
+
+        // Set Alert Timeout
         setTimeout(function() {
             $('.alert').alert('close');
         }, 7200);

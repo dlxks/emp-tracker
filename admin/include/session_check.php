@@ -3,6 +3,22 @@ require_once('../config.php');
 
 //verify session status
 if (!isset($_SESSION['id'])) { //if no session..
+    header("Location: ../login/index.php"); //redirect to login page
+    exit; //end of instruction
+}
+
+$user_id = $_SESSION['id'];
+$check_stmt = "SELECT * FROM users WHERE id = '$user_id'";
+$check_qry = mysqli_query($conn, $check_stmt) or die(mysqli_error($conn));
+$check_res = mysqli_fetch_assoc($check_qry);
+
+if ($check_res['role'] == "coordinator") {
+
+    session_unset();
+    session_destroy();
+    $message = "Your are not allowed to access this page. Please login again.";
+    setcookie('message', $message, time() + 15, '/');
+    setcookie('message_class', 'alert-danger', time() + 15, '/');
     header("Location: ../login/index.php"); //redirect to authorizer login page
     exit; //end of instruction
 }

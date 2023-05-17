@@ -72,7 +72,7 @@
             <form action="actions/actions.php" method="POST">
                 <div class="modal-body">
 
-                    <input type="hidden" id="branch_id" name="branch_id" value="<?= $row['id']; ?>" disable required />
+                    <input type="hidden" id="branch_id" name="branch_id" value="<?= $row['id']; ?>" required />
                     <h4 class="text-danger">Are you sure you want to delete <span class="fw-bold"><?= $row['branch_name'] ?></span>?</h4>
 
                 </div>

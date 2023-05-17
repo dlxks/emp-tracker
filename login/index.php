@@ -20,10 +20,19 @@
                 </div>
                 <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
                     <h2><a href="../index.php" class="text-success text-decoration-none">Cavite State University</a></h2>
+
+                    <!-- Alert Banner -->
                     <?php if (isset($_COOKIE['message'])) {
-                        echo "<h6 class=" . $_COOKIE['message_class'] . ">" . htmlspecialchars($_COOKIE['message']) . "</h6>";
-                        setcookie('message', '', time() - 3600, '/');
-                    } ?>
+                    ?>
+                        <div class="alert <?= $_COOKIE['message_class']; ?> alert-dismissible fade show" role="alert">
+                            <?= htmlspecialchars($_COOKIE['message']); ?>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                            </button>
+                        </div>
+                    <?php
+                    }
+                    ?>
+                    <!-- End Alert Banner -->
                     <form method="POST" action="actions.php">
 
                         <!-- Email input -->
@@ -81,6 +90,15 @@
 
     <!-- Footer Imports -->
     <?php require_once('../include/footer.php') ?>
+
+    <script>
+        $(document).ready(function() {
+            // Set Alert Timeout
+            setTimeout(function() {
+                $('.alert').alert('close');
+            }, 7200);
+        });
+    </script>
 </body>
 
 </html>

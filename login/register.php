@@ -25,10 +25,20 @@ require_once('../config.php');
                     <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
                         <div class="card-body p-4 p-md-5">
                             <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Registration Form</h3>
+
+                            <!-- Alert Banner -->
                             <?php if (isset($_COOKIE['err_message'])) {
-                                echo "<h6 class=" . $_COOKIE['message_class'] . ">" . htmlspecialchars($_COOKIE['err_message']) . "</h6>";
-                                setcookie('err_message', '', time() - 3600, '/');
-                            } ?>
+                            ?>
+                                <div class="alert <?= $_COOKIE['message_class']; ?> alert-dismissible fade show" role="alert">
+                                    <?= htmlspecialchars($_COOKIE['err_message']); ?>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                                    </button>
+                                </div>
+                            <?php
+                            }
+                            ?>
+                            <!-- End Alert Banner -->
+
                             <form method="POST" action="actions.php">
 
                                 <div class="row">
@@ -88,7 +98,7 @@ require_once('../config.php');
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-md-6 mb-4 pb-2">
+                                    <div class="col-md-6 mb-4">
 
                                         <div class="form-outline">
                                             <input type="email" id="email" name="email" class="form-control form-control-lg" value="<?php if (isset($_POST['email'])) echo $_POST['email']; ?>" required />
@@ -96,7 +106,7 @@ require_once('../config.php');
                                         </div>
 
                                     </div>
-                                    <div class="col-md-6 mb-4 pb-2">
+                                    <div class="col-md-6 mb-4">
 
                                         <div class="form-outline">
                                             <input type="tel" id="phonenumber" name="phonenumber" placeholder="63-912-345-6789" pattern="[6]{1}[3]{1}[0-9]{10}" class=" form-control form-control-lg" value="<?php if (isset($_POST['phonenumber'])) echo $_POST['phonenumber']; ?>" required />
@@ -107,14 +117,14 @@ require_once('../config.php');
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-md-6 mb-4 pb-2">
+                                    <div class="col-md-6 mb-4">
 
                                         <div class="form-outline">
                                             <input type="password" id="password" name="password" class="form-control form-control-lg" required />
                                             <label class="form-label" for="password">Password</label>
                                         </div>
                                     </div>
-                                    <div class="col-md-6 mb-4 pb-2">
+                                    <div class="col-md-6 mb-4">
 
                                         <div class="form-outline">
                                             <input type="password" id="confirm_password" name="confirm_password" class="form-control form-control-lg" required />

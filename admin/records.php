@@ -1,5 +1,5 @@
 <?php
-require_once('../config.php');
+include('../config.php');
 
 // Check session
 require_once('include/session_check.php');
@@ -18,7 +18,7 @@ $row = mysqli_fetch_assoc($stmt);
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Branches</title>
+    <title>Records</title>
 
     <!-- CSS Include -->
     <?php include('include/header.php'); ?>
@@ -36,7 +36,7 @@ $row = mysqli_fetch_assoc($stmt);
         <div class="contrainer">
             <!-- Page Header -->
             <div class="page-header px-5 py-2 text-custom-darkgreen">
-                <h3 class="fw-bolder">Branches</h3>
+                <h3 class="fw-bolder">Records</h3>
             </div>
             <!-- End Page Header -->
 
@@ -106,11 +106,11 @@ $row = mysqli_fetch_assoc($stmt);
                         <!-- Search -->
                         <div class="col-sm d-flex justify-content-end">
                             <div class="d-inline-block">
-                                <input type="text" id="branch_search" name="branch_search" placeholder="Search here" class="form-control" />
+                                <input type="text" id="record_search" name="record_search" placeholder="Search here" class="form-control" />
                             </div>
                             <div class="d-inline-block">
-                                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addBranch"><span class="fa fa-circle-plus"></span> Add</button>
-
+                                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addRecord"><span class="fa fa-circle-plus"></span> Add</button>
+                                <?php include('modals/record_modal.php'); ?>
                             </div>
                         </div>
                         <!-- Button -->
@@ -125,17 +125,25 @@ $row = mysqli_fetch_assoc($stmt);
                     <table id="data_table" class="table table-striped table-hover">
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Branch/College</th>
-                                <th>Description</th>
+                                <th>Branch</th>
+                                <th>Year</th>
+                                <th>Graduates</th>
+                                <th>Employed</th>
+                                <th>Percentage</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
-                        <tbody id="show_branches">
+                        <tbody id="show_records">
                             <?php
 
                             // Write a MySQL query to retrieve the records for the current page
-                            $sql = "SELECT * FROM branches LIMIT $starting_record, $per_page";
+                            $sql = "SELECT rec.*, br.id as branch_id, br.branch_name
+                            FROM records as rec 
+                            INNER JOIN branches as br 
+                            ON rec.branch_id = br.id  
+                            ORDER BY year DESC
+                            LIMIT $starting_record, $per_page";
+
                             $result = mysqli_query($conn, $sql) or die(mysqli_error($conn));
 
                             if ($count = mysqli_num_rows($result) == 0) {
@@ -154,14 +162,16 @@ $row = mysqli_fetch_assoc($stmt);
                                     $id = $row['id'];
                                 ?>
                                     <tr>
-                                        <td><?= $row['id']; ?></td>
-                                        <td class="fw-bold"><?= $row['branch_name']; ?></td>
-                                        <td><?= $row['branch_desc']; ?></td>
+                                        <td><?= $row['branch_name']; ?></td>
+                                        <td><?= $row['year']; ?></td>
+                                        <td><?= $row['total_graduates']; ?></td>
+                                        <td><?= $row['total_employed']; ?></td>
+                                        <td><?= $row['total_percentage']; ?></td>
                                         <td>
-                                            <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#editBranch<?= $id; ?>"><span class="fa fa-pen-to-square"></span> Edit</button>
-                                            <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#removeBranch<?= $id; ?>"><span class="fa fa-trash"></span> Remove</button>
-
-                                        </td><?php include('modals/branch_modal.php'); ?>
+                                            <a href="quarterly.php?record_id=<?= $id; ?>" class="btn btn-sm btn-success"><i class="fa-solid fa-eye"></i> View</a>
+                                            <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#removeRecord<?= $id; ?>"><i class="fa fa-trash"></i> Remove</button>
+                                        </td>
+                                        <?php include('modals/record_modal.php'); ?>
                                     </tr>
                             <?php
                                 }
@@ -174,7 +184,7 @@ $row = mysqli_fetch_assoc($stmt);
                     <ul class="pagination justify-content-end ">
                         <?php
                         // Get the total number of records
-                        $sql = "SELECT COUNT(*) AS total_records FROM branches";
+                        $sql = "SELECT COUNT(*) AS total_records FROM records";
                         $result = mysqli_query($conn, $sql);
                         $row = mysqli_fetch_assoc($result);
                         $total_records = $row['total_records'];
@@ -217,16 +227,16 @@ $row = mysqli_fetch_assoc($stmt);
         $(document).ready(function() {
 
             // Searching
-            $('#branch_search').on("keyup", function() {
-                var branch_search = $(this).val();
+            $('#record_search').on("keyup", function() {
+                var record_search = $(this).val();
                 $.ajax({
                     method: 'POST',
-                    url: 'fetch/branches.php',
+                    url: 'fetch/records.php',
                     data: {
-                        branch_search: branch_search
+                        record_search: record_search
                     },
                     success: function(response) {
-                        $("#show_branches").html(response);
+                        $("#show_records").html(response);
                     }
                 });
             });
@@ -240,15 +250,24 @@ $row = mysqli_fetch_assoc($stmt);
                 window.location.search = urlParams.toString();
             });
 
-            // Add branch modal open
-            $('.modal-container').load('modals/branch_modal.php', function() {
-                $('#addBranch').modal({
-                    show: true
-                });
+            // Year picker
+            $("#year").datepicker({
+                format: "yyyy",
+                viewMode: "years",
+                minViewMode: "years",
+                autoclose: true //to close picker once year is selected
             });
 
+            // Year picker
+            $("#r_year").datepicker({
+                format: "yyyy",
+                viewMode: "years",
+                minViewMode: "years",
+                autoclose: true //to close picker once year is selected
+            });
         });
 
+        // Set Alert Timeout
         setTimeout(function() {
             $('.alert').alert('close');
         }, 7200);
