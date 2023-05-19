@@ -266,6 +266,31 @@ $row = mysqli_fetch_assoc($stmt);
                     $('#addForm input[type="submit"]').prop("disabled", false);
                 }
             });
+
+            // assign automatic password
+            $("#employee_id, #lastname").on("input", function() {
+                var value1 = $('#employee_id').val();
+                var value2 = $('#lastname').val();
+                $('#password').val(value1 + value2);
+                $('#confirm_password').val(value1 + value2);
+                $('#add_message').html('Password is automatically generated. The password is Employee ID + Last Name').css('color', 'green');
+            });
+        });
+        
+        // disable submit button until all required fields are filled
+        $('#addForm input[type="submit"]').prop("disabled", true);
+        $("#addForm input[required]").keyup(function() {
+            var empty = false;
+            $("form input[required]").each(function() {
+                if ($(this).val() == "") {
+                    empty = true;
+                }
+            });
+            if (empty) {
+                $('#addForm input[type="submit"]').prop("disabled", true);
+            } else {
+                $('#addForm input[type="submit"]').prop("disabled", false);
+            }
         });
 
         // Set Alert Timeout

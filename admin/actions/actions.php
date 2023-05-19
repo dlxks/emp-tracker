@@ -222,17 +222,23 @@ if (isset($_POST['update_user'])) {
     $phonenumber = mysqli_real_escape_string($conn, $_POST['e_phonenumber']);
     $status = mysqli_real_escape_string($conn, $_POST['e_status']);
 
+    // Get user
+    $user_stmt = "SELECT * FROM users WHERE id = '$user_id'";
+    $user_qry = mysqli_query($conn, $user_stmt);
+    $user_res = mysqli_fetch_assoc($user_qry);
+
     // Concat password
-    $password = $employee_id . $lastname;
-    echo $password;
+    $password = mysqli_real_escape_string($conn, $user_res['password']);
+
+    // echo $password;
 
     // Secure password
-    $hash_password = password_hash($password, PASSWORD_DEFAULT); // Hash the password using the default algorithm
+    // $hash_password = password_hash($password, PASSWORD_DEFAULT); // Hash the password using the default algorithm
 
-    $stmt = "UPDATE users SET branch_id = '$branch', employee_id = '$employee_id', first_name = '$firstname', middle_name = '$middlename', last_name = '$lastname', email = '$email', phone_number = '$phonenumber', role = '$role', status = '$status', password = '$hash_password', remember_token = NULL, remember_token_expire = NULL, updated_at = '$current_date' WHERE id = '$user_id'";
+    $stmt = "UPDATE users SET branch_id = '$branch', employee_id = '$employee_id', first_name = '$firstname', middle_name = '$middlename', last_name = '$lastname', email = '$email', phone_number = '$phonenumber', role = '$role', status = '$status', password = '$password', remember_token = NULL, remember_token_expire = NULL, updated_at = '$current_date' WHERE id = '$user_id'";
     $qry = mysqli_query($conn, $stmt) or die(mysqli_error($conn));
 
-    // If updateing failed
+    // If updating failed
     if (!$qry) {
         $message = "User is not updated. Please check the details you entered.";
         setcookie('data_err_message', $message, time() + 15, '/');
@@ -272,7 +278,6 @@ if (isset($_POST['user_reset_password'])) {
 
     // Concat password
     $password = $employee_id . $lastname;
-    echo $password;
 
     // Secure password
     $hash_password = password_hash($password, PASSWORD_DEFAULT); // Hash the password using the default algorithm
@@ -674,7 +679,7 @@ if (isset($_POST['export_data'])) {
         fputcsv($file, $header1);
 
         // Set data rows for the first table
-        while ($row1 = mysqli_fetch_assoc( $result1)) {
+        while ($row1 = mysqli_fetch_assoc($result1)) {
             $rowData1 = [$row1['id'], $row1['branch_name'], $row1['year'], $row1['total_graduates'], $row1['total_employed'], $row1['total_percentage']];
             fputcsv($file, $rowData1);
         }
@@ -691,7 +696,7 @@ if (isset($_POST['export_data'])) {
         fputcsv($file, $header2);
 
         // Set data rows for the second table
-        while ($row2 = mysqli_fetch_assoc( $result2)) {
+        while ($row2 = mysqli_fetch_assoc($result2)) {
             $rowData2 = [$row2['record_id'], $row2['year'], $row2['quarter'], $row2['employed'], $row2['percentage']];
             fputcsv($file, $rowData2);
         }
