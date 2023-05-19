@@ -3,4 +3,5 @@
 *admin
 admin@admin.com - password
 
-*coordinator - 456Coordinator
+*coordinator
+coordinator@coordinator.com - 456Coordinator
