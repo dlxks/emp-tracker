@@ -222,7 +222,14 @@ if (isset($_POST['update_user'])) {
     $phonenumber = mysqli_real_escape_string($conn, $_POST['e_phonenumber']);
     $status = mysqli_real_escape_string($conn, $_POST['e_status']);
 
-    $stmt = "UPDATE users SET branch_id = '$branch', employee_id = '$employee_id', first_name = '$firstname', middle_name = '$middlename', last_name = '$lastname', email = '$email', phone_number = '$phonenumber', role = '$role', status = '$status', updated_at = '$current_date' WHERE id = '$user_id'";
+    // Concat password
+    $password = $employee_id . $lastname;
+    echo $password;
+
+    // Secure password
+    $hash_password = password_hash($password, PASSWORD_DEFAULT); // Hash the password using the default algorithm
+
+    $stmt = "UPDATE users SET branch_id = '$branch', employee_id = '$employee_id', first_name = '$firstname', middle_name = '$middlename', last_name = '$lastname', email = '$email', phone_number = '$phonenumber', role = '$role', status = '$status', password = '$hash_password', remember_token = NULL, remember_token_expire = NULL, updated_at = '$current_date' WHERE id = '$user_id'";
     $qry = mysqli_query($conn, $stmt) or die(mysqli_error($conn));
 
     // If updateing failed
