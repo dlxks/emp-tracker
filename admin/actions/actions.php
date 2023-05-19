@@ -187,7 +187,8 @@ if (isset($_POST['add_user'])) {
     } else {
 
         // Secure password
-        $hash_password = password_hash($password, PASSWORD_DEFAULT); // Hash the password using the default algorithm
+        $new_password = $employee_id . '' . $lastname;
+        $hash_password = password_hash($new_password, PASSWORD_DEFAULT); // Hash the password using the default algorithm
 
         // If no error
         $stmt = "INSERT INTO users (branch_id, employee_id, first_name, middle_name, last_name, email, phone_number, password, role, status, created_at, updated_at) VALUES ('$branch', '$employee_id', '$firstname', '$middlename', '$lastname', '$email', '$phonenumber', '$hash_password', '$role', '$status', '$current_date', '$current_date')";
@@ -229,11 +230,6 @@ if (isset($_POST['update_user'])) {
 
     // Concat password
     $password = mysqli_real_escape_string($conn, $user_res['password']);
-
-    // echo $password;
-
-    // Secure password
-    // $hash_password = password_hash($password, PASSWORD_DEFAULT); // Hash the password using the default algorithm
 
     $stmt = "UPDATE users SET branch_id = '$branch', employee_id = '$employee_id', first_name = '$firstname', middle_name = '$middlename', last_name = '$lastname', email = '$email', phone_number = '$phonenumber', role = '$role', status = '$status', password = '$password', remember_token = NULL, remember_token_expire = NULL, updated_at = '$current_date' WHERE id = '$user_id'";
     $qry = mysqli_query($conn, $stmt) or die(mysqli_error($conn));

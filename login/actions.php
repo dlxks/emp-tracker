@@ -84,7 +84,6 @@ if (isset($_POST['register'])) {
     }
 }
 
-
 // User Login
 if (isset($_POST['login'])) {
 
@@ -125,45 +124,43 @@ if (isset($_POST['login'])) {
 
                 $hashed_password = $row["password"];
                 $verify = password_verify($password, $hashed_password);
-                
-                echo $verify;
 
-                // if ($verify) {
+                if ($verify) {
 
-                //     //For generating session ID == student_id
-                //     session_regenerate_id();
-                //     $_SESSION["email"] = $row["email"];
-                //     $_SESSION["id"] = $row["id"];
+                    //For generating session ID == student_id
+                    session_regenerate_id();
+                    $_SESSION["email"] = $row["email"];
+                    $_SESSION["id"] = $row["id"];
 
-                //     // Set the remember token if the user selected the "remember me" option
-                //     if (isset($_POST["remember"])) {
-                //         $remember = mysqli_real_escape_string($conn, $_POST['remember']);
+                    // Set the remember token if the user selected the "remember me" option
+                    if (isset($_POST["remember"])) {
+                        $remember = mysqli_real_escape_string($conn, $_POST['remember']);
 
-                //         $token = bin2hex(random_bytes(16)); // Generate a random 32-character hexadecimal string
-                //         $expire = time() + (60 * 60 * 2); // Set the expiration time to 2 hours from now
-                //         setcookie("remember_token", $token, $expire, "/", "", true, true); // Set the cookie with HTTP-only and secure flags
-                //         $query = "UPDATE users SET remember_token='$token', remember_token_expire='$expire' WHERE id={$row['id']}";
-                //         mysqli_query($conn, $query);
-                //     }
+                        $token = bin2hex(random_bytes(16)); // Generate a random 32-character hexadecimal string
+                        $expire = time() + (60 * 60 * 2); // Set the expiration time to 2 hours from now
+                        setcookie("remember_token", $token, $expire, "/", "", true, true); // Set the cookie with HTTP-only and secure flags
+                        $query = "UPDATE users SET remember_token='$token', remember_token_expire='$expire' WHERE id={$row['id']}";
+                        mysqli_query($conn, $query);
+                    }
 
-                //     session_write_close();
+                    session_write_close();
 
-                //     // Redirect to home page
-                //     if ($row['role'] == "admin") {
-                //         header("Location: ../admin");
-                //         exit();
-                //     } elseif ($row['role'] == "coordinator") {
-                //         header("Location: ../coordinator");
-                //         exit();
-                //     }
-                //     exit();
-                // } else {
-                //     $message = "The password you entered is incorrect. Please try again.";
-                //     setcookie('message', $message, time() + 15, '/');
-                //     setcookie('message_class', 'alert-danger', time() + 15, '/');
-                //     header("location: index.php");
-                //     exit();
-                // }
+                    // Redirect to home page
+                    if ($row['role'] == "admin") {
+                        header("Location: ../admin");
+                        exit();
+                    } elseif ($row['role'] == "coordinator") {
+                        header("Location: ../coordinator");
+                        exit();
+                    }
+                    exit();
+                } else {
+                    $message = "The password you entered is incorrect. Please try again.";
+                    setcookie('message', $message, time() + 15, '/');
+                    setcookie('message_class', 'alert-danger', time() + 15, '/');
+                    header("location: index.php");
+                    exit();
+                }
             }
         } else {
 
