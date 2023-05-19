@@ -1,0 +1,13 @@
+"Record ID",Branch,Year,Graduates,Employed,"Employed Percentage"
+3,CEIT,2023,66,45,68.18
+4,CED,2023,76,0,0.00
+5,CEIT,2025,50,40,80.00
+
+"Record ID",Year,Quarter,Employed,"Employed Percentage"
+3,2023,1st,10,15.15
+3,2023,2nd,5,7.58
+3,2023,3rd,10,15.15
+3,2023,4th,20,30.30
+5,2025,1st,30,60.00
+5,2025,2nd,5,10.00
+5,2025,3rd,5,10.00

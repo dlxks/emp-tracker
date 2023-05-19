@@ -154,7 +154,7 @@ $record_latest_date = strtotime($record_latest_res['updated_at']);
                     <div class="col-12 col-md-8">
                         <div class="card ">
                             <div class="card-header bg-custom-darkgreen text-white">
-                                Reports
+                                Employment Reports
                             </div>
                             <div class="card-body">
                                 <canvas id="myChart"></canvas> <!-- Canvas element for the chart -->
@@ -167,10 +167,10 @@ $record_latest_date = strtotime($record_latest_res['updated_at']);
                     </div>
 
 
-                    <div class="col-12 col-md-4">
-                        </ </div>
-                        <!-- End Main Dashboard -->
-                    </div>
+                    <!-- <div class="col-12 col-md-4">
+                    </div> -->
+                    <!-- End Main Dashboard -->
+                </div>
     </main>
     <!-- End Main Slot -->
 
@@ -198,14 +198,16 @@ $record_latest_date = strtotime($record_latest_res['updated_at']);
         // Retrieve the PHP data and convert it to a JavaScript array
         var data = <?php echo json_encode($data); ?>;
 
-        // Extract the year, total_graduates, and total_percentage values from the data
+        // Extract the year, total_employed, and total_percentage values from the data
         var branch_years = [];
         var graduates = [];
+        var employed = [];
         var percentages = [];
 
         data.forEach(function(item) {
             branch_years.push(item.branch_name + ': ' + item.year);
             graduates.push(item.total_graduates);
+            employed.push(item.total_employed);
             percentages.push(item.total_percentage);
         });
 
@@ -216,17 +218,24 @@ $record_latest_date = strtotime($record_latest_res['updated_at']);
             data: {
                 labels: branch_years, // Set the labels (x-axis values)
                 datasets: [{
-                        label: 'Total Graduates', // Set the dataset label
+                        label: 'Graduates', // Set the dataset label
                         data: graduates, // Set the dataset values
                         backgroundColor: 'rgba(75, 192, 192, 0.2)', // Set the color
                         borderColor: 'rgba(75, 192, 192, 1)',
                         borderWidth: 1 // Set the border width
                     },
                     {
-                        label: 'Total Percentage', // Set the dataset label
-                        data: percentages, // Set the dataset values
+                        label: 'Employed Graduates', // Set the dataset label
+                        data: employed, // Set the dataset values
                         backgroundColor: 'rgba(192, 75, 75, 0.2)', // Set the color
                         borderColor: 'rgba(192, 75, 75, 1)',
+                        borderWidth: 1 // Set the border width
+                    },
+                    {
+                        label: 'Percentage', // Set the dataset label
+                        data: percentages, // Set the dataset values
+                        backgroundColor: 'rgba(95, 75, 75, 0.2)', // Set the color
+                        borderColor: 'rgba(92, 75, 75, 1)',
                         borderWidth: 1 // Set the border width
                     }
                 ]
@@ -236,7 +245,7 @@ $record_latest_date = strtotime($record_latest_res['updated_at']);
                     y: {
                         beginAtZero: true // Start the y-axis at zero
                     }
-                }
+                },
             }
         });
     </script>

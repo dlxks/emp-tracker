@@ -585,7 +585,7 @@ if (isset($_POST['update_profile'])) {
             header("location: ../profile.php");
             exit();
         } else { // Profile record success
-            $message = "Profile udpated.";
+            $message = "Profile updated.";
             setcookie('data_err_message', $message, time() + 15, '/');
             setcookie('data_message_class', 'alert-success', time() + 15, '/');
             header("location: ../profile.php");
@@ -626,7 +626,6 @@ if (isset($_POST['update_profile'])) {
         }
     }
 }
-
 
 // ***************Data Export****************
 if (isset($_POST['export_data'])) {
