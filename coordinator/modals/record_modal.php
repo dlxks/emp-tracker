@@ -16,7 +16,7 @@
                                 <select name="branch_id" id="branch_id" class="form-control" required>
                                     <option value="" disabled selected>Choose branch</option>
                                     <?php
-                                    $branches_stmt = "SELECT * FROM branches";
+                                    $branches_stmt = "SELECT * FROM branches WHERE id = '$user_branch'";
                                     $branches_qry = mysqli_query($conn, $branches_stmt) or die(mysqli_error($conn));
 
                                     while ($branches_row = mysqli_fetch_assoc($branches_qry)) {
