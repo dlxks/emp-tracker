@@ -273,7 +273,8 @@ if (isset($_POST['user_reset_password'])) {
     $role = mysqli_real_escape_string($conn, $_POST['e_role']);
 
     // Concat password
-    $password = $employee_id . $lastname;
+    $upper_lname = strtoupper($lastname);
+    $password = $employee_id . "." . $upper_lname;
 
     // Secure password
     $hash_password = password_hash($password, PASSWORD_DEFAULT); // Hash the password using the default algorithm

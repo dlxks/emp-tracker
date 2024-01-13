@@ -239,14 +239,17 @@
                                     <option value="denied" <?php if ($row['status'] == "denied") echo "selected"; ?>>Denied</option>
                                 </select>
                             </div>
+                            <div class="form-outline">
+                                <span class="text-secondary fst-italic">New password for password reset is Employee ID + "." + uppercase last name</span>
+                            </div>
                         </div>
-                        <!-- End Row -->
-
                     </div>
+                    <!-- End Row -->
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         <button type="submit" name="user_reset_password" class="btn btn-warning" data-bs-dismiss="modal">Reset Password</button>
                         <input type="submit" name="update_user" class="btn btn-primary" value="Update">
+
                     </div>
                 </div>
             </form>
