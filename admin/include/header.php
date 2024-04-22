@@ -13,6 +13,10 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" rel="stylesheet" />
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/css/datepicker.min.css" rel="stylesheet">
 
+<!-- jQTE -->
+<link href="https://cdn.bootcdn.net/ajax/libs/jquery-te/1.4.0/jquery-te.min.css" rel="stylesheet">
+
+
 <!-- Website Icon -->
 <link rel="icon" href="../uploads/cvsu_logo.png">
 

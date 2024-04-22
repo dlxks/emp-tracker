@@ -153,7 +153,7 @@ $record_latest_date = strtotime($record_latest_res['updated_at']);
                     <div class="col-12 col-md-8">
                         <div class="card ">
                             <div class="card-header bg-custom-darkgreen text-white">
-                                Employment Reports: 
+                                Employment Reports:
                             </div>
                             <div class="card-body">
                                 <canvas id="myChart"></canvas> <!-- Canvas element for the chart -->
@@ -166,10 +166,23 @@ $record_latest_date = strtotime($record_latest_res['updated_at']);
                     </div>
 
 
-                    <!-- <div class="col-12 col-md-4">
-                    </div> -->
-                    <!-- End Main Dashboard -->
+                    <div class="col-12 col-md-4">
+                        <div class="card ">
+                            <div class="card-header bg-custom-darkgreen text-white">
+                                News/Announcements:
+                            </div>
+                            <div class="card-body">
+                                <canvas id="myChart"></canvas> <!-- Canvas element for the chart -->
+                            </div>
+                            <div class="card-footer text-light bg-custom-darkgreen">
+                                <a href="announcements.php" class="text-light">See all announcements <i class="fas fa-angle-double-right"></i></a>
+                            </div>
+                            <!-- End Main Dashboard -->
+                        </div>
+                    </div>
                 </div>
+            </div>
+        </div>
     </main>
     <!-- End Main Slot -->
 

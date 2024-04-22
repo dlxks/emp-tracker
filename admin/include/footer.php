@@ -11,9 +11,11 @@
 <!-- Datatable -->
 <script type="text/javascript" src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
 
+<!-- jQTE -->
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery-te/1.4.0/jquery-te.min.js"></script>
+
 <!-- Datepicker -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/js/bootstrap-datepicker.min.js"></script>
-
 
 <!-- Custom JS -->
 <script type="text/javascript" src="assets/js/main.js"></script>

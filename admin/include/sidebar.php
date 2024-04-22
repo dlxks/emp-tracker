@@ -30,7 +30,12 @@ $admin_res = mysqli_fetch_assoc($admin_qry);
                 <i class="fa fa-chevron-down ms-auto"></i>
             </a>
             <ul id="users-nav" class="nav-content show" data-bs-parent="#sidebar-nav">
-
+                <li class="nav-item">
+                    <a class="nav-link" href="announcements.php">
+                        <i class="fa fa-rss"></i>
+                        <span>Announcements</span>
+                    </a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="branches.php">
                         <i class="fa fa-landmark"></i>
@@ -71,7 +76,7 @@ $admin_res = mysqli_fetch_assoc($admin_qry);
                     </a>
                 </li>
 
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                     <a class="nav-link" href="administrators.php">
                         <i class="fa fa-user-shield"></i>
                         <span>Administrators</span>
@@ -80,7 +85,7 @@ $admin_res = mysqli_fetch_assoc($admin_qry);
                             <span class="visually-hidden">Pending coordinator accounts</span>
                         </p>
                     </a>
-                </li>
+                </li> -->
 
             </ul>
         </li>

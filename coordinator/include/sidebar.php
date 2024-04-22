@@ -32,11 +32,19 @@ $admin_res = mysqli_fetch_assoc($admin_qry);
             <ul id="users-nav" class="nav-content show" data-bs-parent="#sidebar-nav">
 
                 <li class="nav-item">
+                    <a class="nav-link" href="announcements.php">
+                        <i class="fa fa-rss"></i>
+                        <span>Announcements</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
                     <a class="nav-link" href="records.php">
                         <i class="fa fa-chart-bar"></i>
                         <span>Records</span>
                     </a>
                 </li>
+
 
             </ul>
         </li>
