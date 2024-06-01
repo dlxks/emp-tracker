@@ -12,7 +12,8 @@
 <script type="text/javascript" src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
 
 <!-- jQTE -->
-<script src="https://cdn.bootcdn.net/ajax/libs/jquery-te/1.4.0/jquery-te.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-te/1.4.0/jquery-te.min.js" integrity="sha512-813LH2NdwwzXnVfsmzSuAyyit5bRFdh997hN9Vzm0cdx3LdZV7TZNNb2Ag0dgJPD3J1Xn1Alg2YW70id+RtLrw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!-- <script type="text/javascript" src="assets/js/jquery-te-1.4.0.min.js"></script> -->
 
 <!-- Datepicker -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/js/bootstrap-datepicker.min.js"></script>

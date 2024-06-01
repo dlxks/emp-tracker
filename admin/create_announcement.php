@@ -26,7 +26,24 @@ $row = mysqli_fetch_assoc($stmt);
     <style>
         /* JQTE */
         .jqte_editor {
-            min-height: 30vh !important;
+            min-height: 20vh !important;
+        }
+
+        .jqte_tool.jqte_tool_1 .jqte_tool_label {
+            position: relative;
+            display: block;
+            padding: 3px;
+            width: 70px;
+            height: 21px;
+            /*change*/
+            overflow: hidden;
+        }
+
+        .jqte_tool_label {
+            padding-top: 1px !important;
+            /*add*/
+            height: 25px !important;
+            /*add*/
         }
     </style>
 </head>
@@ -86,6 +103,16 @@ $row = mysqli_fetch_assoc($stmt);
                             </div>
                             <!-- End Controls -->
                             <form method="POST" action="actions/announcements_actions.php" enctype="multipart/form-data">
+                                <div class="row mb-2">
+                                    <div class="form-group">
+                                        <label for="ann_title">Create for *</label>
+                                        <select name="" id="" class="form-control">
+                                            <option selected disabled>--Choose an option here--</option>
+                                            <option value="0">All</option>
+                                            <?php ?>
+                                        </select>
+                                    </div>
+                                </div>
 
                                 <div class="row mb-2">
                                     <div class="form-group">
@@ -96,7 +123,7 @@ $row = mysqli_fetch_assoc($stmt);
                                 <div class="row mb-2">
                                     <div class="form-group">
                                         <label for="ann_description" class="form-label">Details</label>
-                                        <textarea name="ann_description" id="ann_description" class="form-control" cols="30" rows="5" placeholder="Enter your message/description here." required></textarea>
+                                        <textarea name="ann_description" id="ann_description" class="form-control jqte_editor" cols="30" rows="5" placeholder="Enter your message/description here." required></textarea>
                                     </div>
                                 </div>
 
@@ -133,7 +160,7 @@ $row = mysqli_fetch_assoc($stmt);
     <?php include('include/footer.php'); ?>
 
     <script>
-        $("#ann_description").jqte();
+        $('#ann_description').jqte();
 
         setTimeout(function() {
             $('.alert').alert('close');
