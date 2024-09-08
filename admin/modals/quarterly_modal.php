@@ -15,7 +15,7 @@
                         <div class="col-md-6">
                             <div class="form-outline">
                                 <label class="form-label">Quarter</label>
-                                <select name="quarter" id="quarter" class="form-control"  required>
+                                <select name="quarter" id="quarter" class="form-control" required>
                                     <option value="" disabled selected>Choose quarter</option>
                                     <option value="1st">1st Quarter</option>
                                     <option value="2nd">2nd Quarter</option>

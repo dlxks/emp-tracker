@@ -109,7 +109,16 @@ $row = mysqli_fetch_assoc($stmt);
                                         <select name="" id="" class="form-control">
                                             <option selected disabled>--Choose an option here--</option>
                                             <option value="0">All</option>
-                                            <?php ?>
+                                            <?php
+                                            $branches_stmt = "SELECT * FROM branches";
+                                            $branches_qry = mysqli_query($conn, $branches_stmt) or die(mysqli_error($conn));
+
+                                            while ($branches_row = mysqli_fetch_assoc($branches_qry)) {
+                                            ?>
+                                                <option value="<?= $branches_row['id'] ?>" <?php if (isset($_POST['employee_id'])) echo "selected"; ?>><?= $branches_row['branch_name'] ?></option>
+                                            <?php
+                                            }
+                                            ?>
                                         </select>
                                     </div>
                                 </div>
